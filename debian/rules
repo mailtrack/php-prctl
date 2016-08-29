@@ -29,7 +29,18 @@ build-stamp:
 build-stamp-php5: build-stamp
 	[ ! -f Makefile ] || $(MAKE) clean
 	phpize --clean
+ifeq ($(shell which phpize5),/usr/bin/phpize5)
 	phpize5
+endif
+ifeq ($(shell which phpize5.5),/usr/bin/phpize5.5)
+	phpize5.5
+endif
+ifeq ($(shell which phpize5.6),/usr/bin/phpize5.6)
+	phpize5.6
+endif
+ifeq ($(shell which phpize7),/usr/bin/phpize7)
+	phpize7
+endif
 	chmod a+x ./configure
 	./configure --prefix=$(BUILD5)/usr --with-php-config=/usr/bin/php-config5
 	$(MAKE) DESTDIR=$(BUILD5)
