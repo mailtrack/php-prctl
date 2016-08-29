@@ -1,6 +1,12 @@
 #!/usr/bin/make -f
 BUILD5=$(CURDIR)/debian/php5-prctl
 PHP_EX5=$(shell /usr/bin/php-config5 --extension-dir)
+PHP_CONFIG_BIN=/usr/bin/php-config5
+
+ifeq ($(shell which php-config),/usr/bin/php-config)
+PHP_EX5=$(shell /usr/bin/php-config --extension-dir)
+PHP_CONFIG_BIN=/usr/bin/php-config
+endif
 
 #export DH_VERBOSE=1
 
@@ -32,17 +38,11 @@ build-stamp-php5: build-stamp
 ifeq ($(shell which phpize5),/usr/bin/phpize5)
 	phpize5
 endif
-ifeq ($(shell which phpize5.5),/usr/bin/phpize5.5)
-	phpize5.5
-endif
-ifeq ($(shell which phpize5.6),/usr/bin/phpize5.6)
-	phpize5.6
-endif
-ifeq ($(shell which phpize7),/usr/bin/phpize7)
-	phpize7
+ifeq ($(shell which phpize),/usr/bin/phpize)
+	phpize
 endif
 	chmod a+x ./configure
-	./configure --prefix=$(BUILD5)/usr --with-php-config=/usr/bin/php-config5
+	./configure --prefix=$(BUILD5)/usr --with-php-config=$(PHP_CONFIG_BIN)
 	$(MAKE) DESTDIR=$(BUILD5)
 	touch build-stamp-php5
 
@@ -83,7 +83,7 @@ binary-arch-php5: build-php5
 	dh_fixperms
 	dh_installdeb
 	dh_shlibdeps
-	echo "php:Depends=phpapi-`php-config5 --phpapi`" >> debian/php5-prctl.substvars
+	echo "php:Depends=phpapi-`$(PHP_CONFIG_BIN) --phpapi`" >> debian/php5-prctl.substvars
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
