@@ -10,16 +10,16 @@ PHP_CONFIG_BIN=/usr/bin/php-config
 endif
 
 ifeq ($(shell which php5.5),/usr/bin/php5.5)
-PHP_CONFIG_PATH=/etc/php/5.5/mods-available/
+PHP_CONFIG_MOD_PATH=/etc/php/5.5/mods-available/
 endif
 ifeq ($(shell which php5.6),/usr/bin/php5.6)
-PHP_CONFIG_PATH=/etc/php/5.6/mods-available/
+PHP_CONFIG_MOD_PATH=/etc/php/5.6/mods-available/
 endif
 ifeq ($(shell which php7.0),/usr/bin/php7.0)
-PHP_CONFIG_PATH=/etc/php/7.0/mods-available/
+PHP_CONFIG_MOD_PATH=/etc/php/7.0/mods-available/
 endif
 ifeq ($(shell which php7.1),/usr/bin/php7.1)
-PHP_CONFIG_PATH=/etc/php/7.1/mods-available/
+PHP_CONFIG_MOD_PATH=/etc/php/7.1/mods-available/
 endif
 
 #export DH_VERBOSE=1
